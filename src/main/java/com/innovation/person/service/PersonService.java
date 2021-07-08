@@ -1,6 +1,7 @@
 package com.innovation.person.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.innovation.person.dto.request.PersonDTO;
 import com.innovation.person.dto.response.MessageResponseDTO;
 import com.innovation.person.entity.Person;
+import com.innovation.person.exception.PersonNotFoundException;
 import com.innovation.person.mapper.PersonMapper;
 import com.innovation.person.repository.PersonRepository;
 
@@ -51,6 +53,15 @@ public class PersonService {
 		return allPeople.stream()
 				.map(personMapper::toDTO)
 				.collect(Collectors.toList());
+	}
+
+
+	public PersonDTO findById(Long id) throws PersonNotFoundException {
+		Person person = personRepository.findById(id)
+							.orElseThrow(() -> new PersonNotFoundException(id));
+
+
+		return personMapper.toDTO(person);
 	}
 
 

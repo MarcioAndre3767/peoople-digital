@@ -44,7 +44,7 @@ public class PersonService {
 
 	
 	
-	// buscar
+	// buscar todos
 
 	public List<PersonDTO> listAll() {
 		 List<Person> allPeople = personRepository.findAll();
@@ -53,22 +53,37 @@ public class PersonService {
 				.map(personMapper::toDTO)
 				.collect(Collectors.toList());
 	}
-
-
+	
+	
+	
+	// buscar id
+	
 	public PersonDTO findById(Long id) throws PersonNotFoundException {
-		Person person = personRepository.findById(id)
-							.orElseThrow(() -> new PersonNotFoundException(id));
+		Person person = verifyIfExists(id);
 
 
 		return personMapper.toDTO(person);
 	}
 
 
+	
+	// deletar
+	
+	public void delete(Long id) throws PersonNotFoundException {
+		verifyIfExists(id);
+		
+		personRepository.deleteById(id);
+	}
 
 	
+	
+	//método verificar existência
+	
+	private Person verifyIfExists(Long id) throws PersonNotFoundException {
+		return personRepository.findById(id)
+				.orElseThrow(() -> new PersonNotFoundException(id));
+	}
 
-	
-	
 	
 
 }

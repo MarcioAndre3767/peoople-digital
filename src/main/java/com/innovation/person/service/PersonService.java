@@ -13,23 +13,19 @@ import com.innovation.person.exception.PersonNotFoundException;
 import com.innovation.person.mapper.PersonMapper;
 import com.innovation.person.repository.PersonRepository;
 
+import lombok.AllArgsConstructor;
+
 
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonService {
 	
 	
 	private PersonRepository personRepository;
 	
 	private final PersonMapper personMapper = PersonMapper.INSTANCE;
-	
-	
-	
-	
-	@Autowired
-	public PersonService(PersonRepository personRepository) {
-		this.personRepository = personRepository;
-	}
+
 	
 	
 	public MessageResponseDTO createPerson(PersonDTO personDTO) {
